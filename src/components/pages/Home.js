@@ -3,9 +3,9 @@
 function Home(){
 
     return(
-        <div>
+        <h1>
             Home
-        </div>
+        </h1>
     );
 }
 

@@ -3,9 +3,9 @@
 function NewProject() {
 
     return (
-        <div>
+        <h1>
             NewProject
-        </div>
+        </h1>
     );
 }
 
