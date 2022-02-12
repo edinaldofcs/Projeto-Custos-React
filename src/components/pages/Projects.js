@@ -5,15 +5,16 @@ import Message from "../layout/Message";
 function Projects() {
 
     const location = useLocation();
-    let msg = ''
+
+    let message = ''
     if(location.state){
-        msg = location.state.message
+        message = location.state.message
     } 
     
     return (
         <div>
             <h1>Projects</h1>
-            {msg && <Message  type="success" message={msg}/>}
+            {message && <Message  type="success" msg={message}/>}
         </div>
     );
 }
