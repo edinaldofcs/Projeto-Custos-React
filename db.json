@@ -12,11 +12,11 @@
       "id": 1
     },
     {
-      "name": "EFCS",
-      "budget": "741",
+      "name": "testes",
+      "budget": "100",
       "category": {
-        "id": "1",
-        "name": "Infra"
+        "id": "2",
+        "name": "Desenvolvimento"
       },
       "cost": 0,
       "services": [],
