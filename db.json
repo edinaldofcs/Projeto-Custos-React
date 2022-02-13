@@ -4,12 +4,12 @@
       "name": "4º Projeto",
       "budget": "350",
       "category": {
-        "id": "4",
+        "id": "3",
         "name": "Design"
       },
       "cost": 0,
       "services": [],
-      "id": 4
+      "id": 1
     },
     {
       "name": "EFCS",
@@ -20,7 +20,7 @@
       },
       "cost": 0,
       "services": [],
-      "id": 5
+      "id": 2
     }
   ],
   "categories": [
