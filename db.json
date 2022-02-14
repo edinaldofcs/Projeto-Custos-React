@@ -18,8 +18,33 @@
         "id": "2",
         "name": "Desenvolvimento"
       },
-      "cost": 0,
-      "services": [],
+      "cost": 53,
+      "services": [
+        {
+          "name": "new service",
+          "cost": "10",
+          "description": "TESTE",
+          "id": "fa7aca2c-723b-467c-ad99-f0ddfa5e2741"
+        },
+        {
+          "name": "new service 2",
+          "cost": "15",
+          "description": "teste2",
+          "id": "36a934bd-16da-427b-8e00-171e07b5f7f5"
+        },
+        {
+          "name": "teste",
+          "cost": "14",
+          "description": "testando",
+          "id": "ce626e7a-98cc-4925-94f4-18794756c389"
+        },
+        {
+          "name": "teste02",
+          "cost": "14",
+          "description": "testando2",
+          "id": "94259256-c423-481c-956f-8d0946f059a2"
+        }
+      ],
       "id": 2
     }
   ],

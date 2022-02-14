@@ -4,8 +4,12 @@ import { useParams } from 'react-router-dom'
 import { useState, useEffect } from 'react'
 import Loading from "../layout/Loading";
 import Container from '../layout/Container';
-import ProjectForm from '../project/ProjectFrom';
+import ProjectForm from '../project/ProjectForm';
 import Message from '../layout/Message';
+import ServiceForm from '../service/ServiceForm';
+
+import { parse, v4 as uuidv4 } from 'uuid'
+import ServiceCard from '../service/ServiceCard';
 
 function SingleProject() {
 
@@ -72,6 +76,47 @@ function SingleProject() {
         setShowServiceForm(!showServiceForm)
     }
 
+    function createService(project){
+        setMessage('')
+
+        const lastService = project.services[project.services.length - 1]
+        lastService.id = uuidv4();
+
+        const lastServiceCost = lastService.cost
+
+        const newCost = parseFloat(project.cost) + parseFloat(lastService.cost)
+
+        if(newCost > parseFloat(project.budget)){
+            setMessage('Valor acima do limite do orçamento')
+            setType('fail')
+            project.services.pop()
+            return false;
+        }
+
+        project.cost = newCost
+
+        fetch(`http://localhost:5000/projects/${project.id}`, {
+            method: 'PATCH',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(project),
+        })
+            .then((resp) => resp.json())
+            .then((data) => {
+                //console.log(data)
+                setMessage('Projeto atualizado com sucesso!')
+                setType('success')
+                setShowServiceForm(false)
+            })
+            .catch(err => console.log(`singleProject-Erro-Update: ${err}`))
+    }
+
+    function removeService(){
+
+    }
+
+
     return (
         <>
             {project.name ? (
@@ -95,7 +140,7 @@ function SingleProject() {
                                     <p>
                                         <span>Total utilizado: </span>R${project.cost}
                                     </p>
-                                </div>
+                                </div>                                
                             ) : (
                                 <div className={styles.project_info}>
                                     <ProjectForm
@@ -112,12 +157,35 @@ function SingleProject() {
                                 {!showServiceForm ? 'Adicionar serviço' : 'Fechar'}
                             </button>
                             <div className={styles.project_info}>
-                                {showServiceForm && <div>Form</div>}
+                                {showServiceForm && (
+                                    <ServiceForm 
+                                    handleSubmit={createService}
+                                    textBtn="Adicionar serviço"
+                                    projectData={project}
+                                    />
+                                )}
                             </div>
                         </div>
                         <h2>Serviço</h2>
-                        <Container customClass="start"/>
-                                <p>Serviços</p>
+                        <Container customClass='start'>
+                        
+                                {project.services.length > 0 ?
+                                (
+                                    project.services.map((element)=>(
+                                        <ServiceCard 
+                                        id={element.id}
+                                        name={element.name}
+                                        cost={element.cost}
+                                        description={element.description}
+                                        key={element.id}
+                                        handleRemove={removeService}
+                                        />
+                                    ))
+
+                                ):(
+                                    <p>Não há serviços contratados</p>
+                                )}
+                        </Container>
                     </Container>
                 </div>
             ) : (
