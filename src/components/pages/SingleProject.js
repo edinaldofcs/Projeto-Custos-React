@@ -14,6 +14,7 @@ function SingleProject() {
     const [showProjectForm, setShowProjectForm] = useState(false)
     const [message, setMessage] = useState('');
     const [type, setType] = useState('');
+    const [showServiceForm, setShowServiceForm] = useState(false);
 
     useEffect(() => {
 
@@ -40,6 +41,9 @@ function SingleProject() {
     }
 
     function editPost(project) {
+
+        setMessage('')
+
         if (project.budget < project.cost) {
             //mensagem
             setMessage('O orçamento deve ser maior que o custo')
@@ -62,6 +66,10 @@ function SingleProject() {
                 setType('success')
             })
             .catch(err => console.log(`singleProject-Erro-Update: ${err}`))
+    }
+
+    function toggleServiceForm(){
+        setShowServiceForm(!showServiceForm)
     }
 
     return (
@@ -98,6 +106,18 @@ function SingleProject() {
                                 </div>
                             )}
                         </div>
+                        <div className={styles.service_container}>
+                                <h2>Adicione um serviço:</h2>
+                                <button className={styles.btn} onClick={toggleServiceForm}>
+                                {!showServiceForm ? 'Adicionar serviço' : 'Fechar'}
+                            </button>
+                            <div className={styles.project_info}>
+                                {showServiceForm && <div>Form</div>}
+                            </div>
+                        </div>
+                        <h2>Serviço</h2>
+                        <Container customClass="start"/>
+                                <p>Serviços</p>
                     </Container>
                 </div>
             ) : (
