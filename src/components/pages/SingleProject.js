@@ -19,6 +19,7 @@ function SingleProject() {
     const [message, setMessage] = useState('');
     const [type, setType] = useState('');
     const [showServiceForm, setShowServiceForm] = useState(false);
+    const [services, setServices] = useState([])
 
     useEffect(() => {
 
@@ -33,6 +34,7 @@ function SingleProject() {
                 .then((resp) => resp.json())
                 .then((data) => {
                     setProject(data)
+                    setServices(data.services)
                 })
                 .catch(err => console.log(`singleProject-Erro: ${err}`))
 
@@ -112,8 +114,33 @@ function SingleProject() {
             .catch(err => console.log(`singleProject-Erro-Update: ${err}`))
     }
 
-    function removeService(){
+    function removeService(id, cost){
 
+        setMessage('')
+        
+        const servicesUpdated = project.services.filter((element)=>
+            element.id !== id
+        )
+
+        const projectUpdated = project
+        projectUpdated.services = servicesUpdated
+        projectUpdated.cost = parseFloat(projectUpdated.cost) - parseFloat(cost)
+
+        fetch(`http://localhost:5000/projects/${projectUpdated.id}`, {
+            method: 'PATCH',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(project),
+        })
+            .then((resp) => resp.json())
+            .then((data) => {
+                setProject(projectUpdated)
+                setServices(servicesUpdated)
+                setMessage('Serviço removido com sucesso!')
+                setType('success')
+            })
+            .catch(err => console.log(`singleProject-Erro-Update: ${err}`))
     }
 
 
@@ -169,7 +196,7 @@ function SingleProject() {
                         <h2>Serviço</h2>
                         <Container customClass='start'>
                         
-                                {project.services.length > 0 ?
+                                {services.length > 0 ?
                                 (
                                     project.services.map((element)=>(
                                         <ServiceCard 
